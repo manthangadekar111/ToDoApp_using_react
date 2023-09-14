@@ -1,0 +1,48 @@
+import React from 'react';
+import './SubmitForm.css';
+
+class SubmitForm extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = { tasksCount: 0 };
+        
+        this.addItem = this.addItem.bind(this);
+    }
+
+    addItem(e) {
+        e.preventDefault();
+
+        if (this._inputElement.value !== "") {
+            var newItem = {
+                text: this._inputElement.value,
+                id: this.state.tasksCount,
+                key: Date.now()
+            };
+
+            this.props.addTask(newItem);
+
+            this.setState(prevState => ({
+                tasksCount: prevState.tasksCount + 1
+            }));
+
+            this._inputElement.value = "";
+        }
+    }
+
+    render() {
+        return (
+            <div className='form'>
+                <form onSubmit={this.addItem}>
+                    <input
+                        className='input'
+                        placeholder='Add Task...'
+                        ref={(a) => this._inputElement = a}
+                    />
+                    <button className='add-button' type='submit'>Add</button>
+                </form>
+            </div>
+        );
+    }
+}
+
+export default SubmitForm;
